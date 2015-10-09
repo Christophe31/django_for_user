@@ -82,7 +82,7 @@ Here the main use-cases
 Can I Haz some exemples?
 ========================
 
-::
+.. code-block:: python
 
     # Models usage exemple:
 
