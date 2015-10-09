@@ -30,6 +30,8 @@ What features does it provides?
 
 This project is made to set security filtering at model level once and for all to avoid some security issues.
 
+The main argument is the django user but it's easy to use this code base to filter by django site too.
+
 Here the main use-cases
 
 - models
