@@ -79,12 +79,12 @@ Here the main use-cases
 
     * Field grouping in selects (admin and forms)
 
-Can I Haz some exemples?
+Can I Haz some examples?
 ========================
 
 .. code-block:: python
 
-    # Models usage exemple:
+    # Models usage example:
 
     #! /usr/bin/env python
     # -*- coding: utf-8 -*-
@@ -139,7 +139,7 @@ Can I Haz some exemples?
 
 
 
-    # form exemple
+    # form example
     import django_for_user as for_user
     from django import forms
     from . import models
@@ -159,7 +159,7 @@ Can I Haz some exemples?
             model = models.Group
 
 
-    # admin exemple
+    # admin example
     import django_for_user as for_user
     from django.contrib import admin
     from . import models
