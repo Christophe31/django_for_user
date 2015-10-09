@@ -30,54 +30,54 @@ What features does it provides?
 
 This project is made to set security filtering at model level once and for all to avoid some security issues.
 
-Here the main use-cases::
+Here the main use-cases
 
-    - models
-    
-        + Requirements:
+- models
 
-            * you need to know how Q objects works:
-              `https://docs.djangoproject.com/en/1.8/topics/db/queries/#complex-lookups-with-q`
-              
-            * you have to define a class method `for_user` on models
-              you want to be filtered.
+    + Requirements:
 
-            * you will have to use or subclass ForUserManager
+        * you need to know how Q objects works:
+          `https://docs.djangoproject.com/en/1.8/topics/db/queries/#complex-lookups-with-q`
+          
+        * you have to define a class method `for_user` on models
+          you want to be filtered.
 
-        + Features:
+        * you will have to use or subclass ForUserManager
 
-            * it will allow you to do MyModel.objects.for_user(user) to get
-              a queryset of what user can access.
+    + Features:
 
-            * superuser can still see everything.
+        * it will allow you to do MyModel.objects.for_user(user) to get
+          a queryset of what user can access.
 
-    - forms
+        * superuser can still see everything.
 
-        + Requirements:
+- forms
 
-            * you will set as first inheritant of your form the 
-              `ForUserFormMixin`
+    + Requirements:
 
-            * you must pass request as first argument when you create your form.
+        * you will set as first inheritant of your form the 
+          `ForUserFormMixin`
 
-        + Features:
+        * you must pass request as first argument when you create your form.
 
-            * It will filter all related fields (select…)
+    + Features:
 
-            * It will include current selected values even if current
-              user should not see it to avoid changes due to right restrictions.
+        * It will filter all related fields (select…)
 
-    - admin
+        * It will include current selected values even if current
+          user should not see it to avoid changes due to right restrictions.
 
-        * you will set as first inheritant of your ModelAdmin the ForUserAdminMixIn.
+- admin
 
-        * It will filter your list querysets, your selects querysets, your ListFilter querysets.
+    * you will set as first inheritant of your ModelAdmin the ForUserAdminMixIn.
 
-        * You still want to use django permissions to know what the user is able to do with models he have access to.
+    * It will filter your list querysets, your selects querysets, your ListFilter querysets.
 
-    - bonus feature
+    * You still want to use django permissions to know what the user is able to do with models he have access to.
 
-        * Field grouping in selects (admin and forms)
+- bonus feature
+
+    * Field grouping in selects (admin and forms)
 
 Can I Haz some exemples?
 ========================
