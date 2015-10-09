@@ -5,14 +5,14 @@ This is a library which will allow you to add a `for_user` method to your
 model's querysets and restrict access by users to any entries from the database.
 
 This allow a fine line by line access permission but does not provide much
-access context by default. It's permission to see / list items, it does
+access context by default. It's permission to see / list items, it does 
 not tell what you can do with them.
 
 
 Warning/Welcome Message
 =======================
 
-Hi I published this light version of an internal project code because
+Hi I published this light version of an internal project code because 
 I find this tool provides something should be a base feature of django.
 
 Let me know if you use this tool or want an improvement in it… For now,
@@ -30,61 +30,66 @@ What features does it provides?
 
 This project is made to set security filtering at model level once and for all to avoid some security issues.
 
+The main argument is the django user but it's easy to use this code base to filter by django.contrib.site,
+session's variable or anything else too thanks to the kwargs of the for_user class method.
+
 Here the main use-cases::
 
-    - models
+Here the main use-cases
 
-        + Requirements:
+- models
 
-            * you need to know how Q objects works:
-              `https://docs.djangoproject.com/en/1.8/topics/db/queries/#complex-lookups-with-q`
+    + Requirements:
 
-            * you have to define a class method `for_user` on models
-              you want to be filtered.
+        * you need to know how Q objects works:
+          `https://docs.djangoproject.com/en/1.8/topics/db/queries/#complex-lookups-with-q`
+          
+        * you have to define a class method `for_user` on models
+          you want to be filtered.
 
-            * you will have to use or subclass ForUserManager
+        * you will have to use or subclass ForUserManager
 
-        + Features:
+    + Features:
 
-            * it will allow you to do MyModel.objects.for_user(user) to get
-              a queryset of what user can access.
+        * it will allow you to do MyModel.objects.for_user(user) to get
+          a queryset of what user can access.
 
-            * superuser can still see everything.
+        * superuser can still see everything.
 
-    - forms
+- forms
 
-        + Requirements:
+    + Requirements:
 
-            * you will set as first inheritant of your form the
-              `ForUserFormMixin`
+        * you will set as first inheritant of your form the 
+          `ForUserFormMixin`
 
-            * you must pass request as first argument when you create your form.
+        * you must pass request as first argument when you create your form.
 
-        + Features:
+    + Features:
 
-            * It will filter all related fields (select…)
+        * It will filter all related fields (select…)
 
-            * It will include current selected values even if current
-              user should not see it to avoid changes due to right restrictions.
+        * It will include current selected values even if current
+          user should not see it to avoid changes due to right restrictions.
 
-    - admin
+- admin
 
-        * you will set as first inheritant of your ModelAdmin the ForUserAdminMixIn.
+    * you will set as first inheritant of your ModelAdmin the ForUserAdminMixIn.
 
-        * It will filter your list querysets, your selects querysets, your ListFilter querysets.
+    * It will filter your list querysets, your selects querysets, your ListFilter querysets.
 
-        * You still want to use django permissions to know what the user is able to do with models he have access to.
+    * You still want to use django permissions to know what the user is able to do with models he have access to.
 
-    - bonus feature
+- bonus feature
 
-        * Field grouping in selects (admin and forms)
+    * Field grouping in selects (admin and forms)
 
-Can I Haz some exemples?
+Can I Haz some examples?
 ========================
 
-::
+.. code-block:: python
 
-    # Models usage exemple:
+    # Models usage example:
 
     #! /usr/bin/env python
     # -*- coding: utf-8 -*-
@@ -122,7 +127,19 @@ Can I Haz some exemples?
         def for_user(cls, user, **kwargs):
             return Q(users__contains=user)
 
-    # form exemple
+    class User(AbstractBaseUser):
+        group = models.ForeignKey(Group)
+        objects = for_user.ForUserManager()
+
+        @classmethod
+        def for_user(user, **kwargs):
+            if user.have_permission("app.see_all_users"):
+                return Q()
+            return Q(group=user.group)
+
+
+
+    # form example
     import django_for_user as for_user
     from django import forms
     from . import models
@@ -142,7 +159,7 @@ Can I Haz some exemples?
             model = models.Group
 
 
-    # admin exemple
+    # admin example
     import django_for_user as for_user
     from django.contrib import admin
     from . import models
