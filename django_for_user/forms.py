@@ -5,6 +5,7 @@ from collections import OrderedDict
 from django.db.models import Q
 from django.utils.translation import ugettext as _
 
+
 # as we are hacking with Qs here a more explicit repr function
 def q_object_to_string_list(q):
     children_list = [q.connector]
@@ -70,13 +71,13 @@ class ForUserBaseMixin(object):
         grouped_content = OrderedDict()
         qs.order_by(*orderings)
         for e in qs:
-            group_name = unicode(get_deep_attr(e, field))
+            group_name = str(get_deep_attr(e, field))
             if group_name not in grouped_content:
                 grouped_content[group_name] = []
-            grouped_content[group_name].append((e.pk, unicode(e)))
+            grouped_content[group_name].append((e.pk, str(e)))
         if ("None" in grouped_content
-                and unicode(_("Other")) not in grouped_content):
-            grouped_content[unicode(_("Other"))] = grouped_content["None"]
+                and str(_("Other")) not in grouped_content):
+            grouped_content[str(_("Other"))] = grouped_content["None"]
             del grouped_content["None"]
         return grouped_content.items()
 

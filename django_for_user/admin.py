@@ -38,7 +38,8 @@ class ForUserAdminMixin(ForUserBaseMixin, BaseModelAdmin):
         return form
 
     def get_formset(self, request, obj=None, **kwargs):
-        formset = super(ForUserAdminMixin, self).get_formset(request, obj, **kwargs)
+        formset = super(ForUserAdminMixin, self).get_formset(
+            request, obj, **kwargs)
         self.filter_form(formset.form, request, obj)
         return formset
 
