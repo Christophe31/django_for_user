@@ -1,3 +1,6 @@
+.. image:: https://travis-ci.org/Christophe31/django_for_user.svg?branch=master
+    :target: https://travis-ci.org/Christophe31/django_for_user
+
 What is this?
 =============
 
