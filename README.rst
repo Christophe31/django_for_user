@@ -1,3 +1,6 @@
+.. image:: https://travis-ci.org/Christophe31/django_for_user.svg?branch=master
+    :target: https://travis-ci.org/Christophe31/django_for_user
+
 What is this?
 =============
 
@@ -176,7 +179,7 @@ Can I Haz some examples?
 What is the test coverage?
 ==========================
 
-0%, I never did TDD, contributions are welcome.
+I never did TDD, as the first project I ever do with tests, contributions are welcome.
 
 Which License is used?
 ======================
