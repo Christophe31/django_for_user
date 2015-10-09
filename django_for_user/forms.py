@@ -47,12 +47,13 @@ class ForUserBaseMixin(object):
             if hasattr(field.queryset, "for_user"):
                 if self.qs_filter_kwargs:
                     q = field.queryset.model.for_user(
-                        field.queryset, request.user, **self.qs_filter_kwargs)
+                        request.user, qs=field.queryset,
+                        **self.qs_filter_kwargs)
                 elif request.user.is_superuser:
                     q = ~Q(pk=0)
                 else:
                     q = field.queryset.model.for_user(
-                        field.queryset, request.user)
+                        request.user, qs=field.queryset)
                 if instance and getattr(instance, name + "_id", 0):
                     q |= Q(pk=getattr(instance, name + "_id"))
                 elif (instance and getattr(instance, name, False) and

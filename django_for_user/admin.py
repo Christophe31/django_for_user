@@ -46,7 +46,7 @@ class ForUserAdminMixin(ForUserBaseMixin, BaseModelAdmin):
         pass
 
     def get_queryset(self, request):
-        qs = super(ForUserAdmin, self).get_queryset(request)
+        qs = super(ForUserAdminMixin, self).get_queryset(request)
         if hasattr(qs, 'for_user'):
             return qs.for_user(request.user, admin=True)
         return qs

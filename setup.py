@@ -8,6 +8,7 @@ setup(
     author="Christophe Narbonne",
     author_email='@Christophe31',
     url='https://github.com/Christophe31/django-for-user',
-    packages=[django_for_user],
+    packages=['django_for_user'],
+    license='BSD',
     long_description=open('README.rst').read(),
 )
