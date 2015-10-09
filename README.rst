@@ -5,14 +5,14 @@ This is a library which will allow you to add a `for_user` method to your
 model's querysets and restrict access by users to any entries from the database.
 
 This allow a fine line by line access permission but does not provide much
-access context by default. It's permission to see / list items, it does 
+access context by default. It's permission to see / list items, it does
 not tell what you can do with them.
 
 
 Warning/Welcome Message
 =======================
 
-Hi I published this light version of an internal project code because 
+Hi I published this light version of an internal project code because
 I find this tool provides something should be a base feature of django.
 
 Let me know if you use this tool or want an improvement in it… For now,
@@ -43,7 +43,7 @@ Here the main use-cases
 
         * you need to know how Q objects works:
           `https://docs.djangoproject.com/en/1.8/topics/db/queries/#complex-lookups-with-q`
-          
+
         * you have to define a class method `for_user` on models
           you want to be filtered.
 
@@ -60,7 +60,7 @@ Here the main use-cases
 
     + Requirements:
 
-        * you will set as first inheritant of your form the 
+        * you will set as first inheritant of your form the
           `ForUserFormMixin`
 
         * you must pass request as first argument when you create your form.
@@ -96,7 +96,7 @@ Can I Haz some examples?
     import django_for_user as for_user
     from django.db import models
     from django.db.models import Q
-    from django.contrib.auth import get_user_model
+    from django.conf import settings
 
     class Client(models.Model):
         name = models.CharField(max_length=100)
@@ -106,6 +106,9 @@ Can I Haz some examples?
         def for_user(cls, user, **kwargs):
             return Q(region__group__users=user)
 
+        def __str__(self):
+            return self.name
+
     class Region(models.Model):
         name = models.CharField(max_length=100)
         client = models.ForeignKey(Client)
@@ -113,30 +116,27 @@ Can I Haz some examples?
 
         @classmethod
         def for_user(cls, user, **kwargs):
-            if user.have_permission("app.see_client_regions"):
+            if user.has_perm("app.see_client_regions"):
                 return Q(client__region__group__users=user)
             return Q(group__users=user)
+
+        def __str__(self):
+            return self.name
 
     class Group(models.Model):
         name = models.CharField(max_length=100)
         region = models.ForeignKey(Region)
-        users = models.ManyToMany(get_user_model())
+        users = models.ManyToManyField(settings.AUTH_USER_MODEL)
         objects = for_user.ForUserManager()
 
         @classmethod
         def for_user(cls, user, **kwargs):
-            return Q(users__contains=user)
-
-    class User(AbstractBaseUser):
-        group = models.ForeignKey(Group)
-        objects = for_user.ForUserManager()
-
-        @classmethod
-        def for_user(user, **kwargs):
-            if user.have_permission("app.see_all_users"):
+            if user.has_perm("app.see_all_groups"):
                 return Q()
-            return Q(group=user.group)
+            return Q(users=user)
 
+        def __str__(self):
+            return self.name
 
 
     # form example
@@ -167,7 +167,10 @@ Can I Haz some examples?
     # use admin as usual, just add the mixin (also on inlines)
     class ForUserAdmin(for_user.ForUserAdminMixin, admin.ModelAdmin):
         pass
+
     admin.site.register(models.Group, ForUserAdmin)
+    admin.site.register(models.Region, ForUserAdmin)
+    admin.site.register(models.Client, ForUserAdmin)
 
 
 What is the test coverage?
