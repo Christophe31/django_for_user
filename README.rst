@@ -30,7 +30,8 @@ What features does it provides?
 
 This project is made to set security filtering at model level once and for all to avoid some security issues.
 
-The main argument is the django user but it's easy to use this code base to filter by django site too.
+The main argument is the django user but it's easy to use this code base to filter by django.contrib.site,
+session's variable or anything else too thanks to the kwargs of the for_user class method.
 
 Here the main use-cases
 
