@@ -8,6 +8,6 @@ from . import models
 class ForUserAdmin(for_user.ForUserAdminMixin, admin.ModelAdmin):
     pass
 
-admin.site.register(models.Group, ForUserAdmin)
+admin.site.register(models.Group, ForUserAdmin, list_filter=["region"])
 admin.site.register(models.Region, ForUserAdmin)
 admin.site.register(models.Client, ForUserAdmin)

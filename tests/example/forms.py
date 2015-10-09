@@ -7,6 +7,7 @@ from . import models
 class RegionForm(for_user.ForUserFormMixin, forms.ModelForm):
     class Meta:
         model = models.Region
+        exclude = []
 
 class GroupForm(for_user.ForUserFormMixin, forms.ModelForm):
 
@@ -17,3 +18,4 @@ class GroupForm(for_user.ForUserFormMixin, forms.ModelForm):
     }
     class Meta:
         model = models.Group
+        exclude = []

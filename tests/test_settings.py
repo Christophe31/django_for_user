@@ -7,9 +7,11 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.admin',
+
+    'tests.example',
 ]
 SECRET_KEY = "not really secret, is it?"
-ROOT_URLCONF = 'django_for_user.test_urls'
+ROOT_URLCONF = 'tests.test_urls'
 MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',

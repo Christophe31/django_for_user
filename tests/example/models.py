@@ -4,7 +4,10 @@ import django_for_user as for_user
 from django.db import models
 from django.db.models import Q
 from django.conf import settings
+from django.utils.encoding import python_2_unicode_compatible
 
+
+@python_2_unicode_compatible
 class Client(models.Model):
     name = models.CharField(max_length=100)
     objects = for_user.ForUserManager()
@@ -16,6 +19,8 @@ class Client(models.Model):
     def __str__(self):
         return self.name
 
+
+@python_2_unicode_compatible
 class Region(models.Model):
     name = models.CharField(max_length=100)
     client = models.ForeignKey(Client)
@@ -29,6 +34,7 @@ class Region(models.Model):
 
     def __str__(self):
         return self.name
+
 
 class Group(models.Model):
     name = models.CharField(max_length=100)
@@ -44,3 +50,5 @@ class Group(models.Model):
 
     def __str__(self):
         return self.name
+
+Group = python_2_unicode_compatible(Group)
