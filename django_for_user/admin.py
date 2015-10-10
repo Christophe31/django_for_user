@@ -12,9 +12,6 @@ from django.utils.encoding import smart_text
 from .forms import ForUserBaseMixin
 
 
-########################
-# Admin mixins and tools
-########################
 class ForUserRelatedListFilter(RelatedFieldListFilter):
     def field_choices(self, field, request, model_admin):
         other_model = get_model_from_relation(field)
@@ -24,10 +21,10 @@ class ForUserRelatedListFilter(RelatedFieldListFilter):
                 qs = qs.for_user(request.user)
         return [(x._get_pk_val(), smart_text(x)) for x in qs]
 
-
-FieldListFilter.register(lambda f: (
-    bool(f.rel) if hasattr(f, 'rel') else
-    isinstance(f, ForeignObjectRel)),
+# Apply automatically as default admin filter on import
+FieldListFilter.register(lambda field: (
+    bool(field.rel) if hasattr(field, 'rel') else
+    isinstance(field, ForeignObjectRel)),
     ForUserRelatedListFilter, take_priority=True)
 
 
