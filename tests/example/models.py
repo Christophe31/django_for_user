@@ -14,6 +14,8 @@ class Client(models.Model):
 
     @classmethod
     def for_user(cls, user, **kwargs):
+        if user.is_superuser:
+            return Q()
         return Q(region__group__users=user)
 
     def __str__(self):
@@ -28,6 +30,8 @@ class Region(models.Model):
 
     @classmethod
     def for_user(cls, user, **kwargs):
+        if user.is_superuser:
+            return Q()
         if user.has_perm("app.see_client_regions"):
             return Q(client__region__group__users=user)
         return Q(group__users=user)
