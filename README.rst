@@ -36,55 +36,33 @@ This project is made to set security filtering at model level once and for all t
 The main argument is the django user but it's easy to use this code base to filter by django.contrib.site,
 session's variable or anything else too thanks to the kwargs of the for_user class method.
 
-Here the main use-cases::
-
-Here the main use-cases
+Here the main use-cases:
 
 - models
-
     + Requirements:
-
         * you need to know how Q objects works:
           `https://docs.djangoproject.com/en/1.8/topics/db/queries/#complex-lookups-with-q`
-
         * you have to define a class method `for_user` on models
           you want to be filtered.
-
         * you will have to use or subclass ForUserManager
-
     + Features:
-
         * it will allow you to do MyModel.objects.for_user(user) to get
           a queryset of what user can access.
-
         * superuser can still see everything.
-
 - forms
-
     + Requirements:
-
         * you will set as first inheritant of your form the
           `ForUserFormMixin`
-
         * you must pass request as first argument when you create your form.
-
     + Features:
-
         * It will filter all related fields (select…)
-
         * It will include current selected values even if current
           user should not see it to avoid changes due to right restrictions.
-
 - admin
-
     * you will set as first inheritant of your ModelAdmin the ForUserAdminMixIn.
-
     * It will filter your list querysets, your selects querysets, your ListFilter querysets.
-
     * You still want to use django permissions to know what the user is able to do with models he have access to.
-
 - bonus feature
-
     * Field grouping in selects (admin and forms)
 
 Can I Haz some examples?
