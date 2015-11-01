@@ -6,8 +6,6 @@ from django.db import models
 
 class ForUserQuerySet(models.QuerySet):
     def for_user(self, user, **kwargs):
-        if user.is_superuser:
-            return self
         query_filter = self.model.for_user(user, qs=self, **kwargs)
         return self.filter(query_filter).distinct()
 
