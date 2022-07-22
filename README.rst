@@ -65,6 +65,18 @@ Here the main use-cases:
 - bonus feature
     * Field grouping in selects (admin and forms)
 
+
+Is this on pypi?
+================
+
+I won't make full fledged package management untill I interact with some users ^^.
+It's still easy to install/remove:
+
+.. code-block:: bash
+
+    pip install git+https://github.com/Christophe31/django_for_user.git
+    pip uninstall django_for_user
+
 Can I Haz some exemples?
 ========================
 
