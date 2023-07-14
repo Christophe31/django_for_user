@@ -7,7 +7,7 @@ from django.contrib.admin.options import BaseModelAdmin
 from django.contrib.admin import (
     RelatedFieldListFilter, FieldListFilter,)
 from django.contrib.admin.utils import get_model_from_relation
-from django.utils.encoding import smart_text
+from django.utils.encoding import smart_str
 
 from .forms import ForUserBaseMixin
 
@@ -19,7 +19,7 @@ class ForUserRelatedListFilter(RelatedFieldListFilter):
         if isinstance(model_admin, ForUserAdminMixin):
             if hasattr(qs, 'for_user'):
                 qs = qs.for_user(request.user)
-        return [(x._get_pk_val(), smart_text(x)) for x in qs]
+        return [(x._get_pk_val(), smart_str(x)) for x in qs]
 
 # Apply automatically as default admin filter on import
 FieldListFilter.register(lambda field: (
